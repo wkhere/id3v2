@@ -363,8 +363,14 @@ func (tag *Tag) Save() error {
 	}
 
 	// Close files to allow replacing.
-	newFile.Close()
-	originalFile.Close()
+	err = newFile.Close()
+	if err != nil {
+		return err
+	}
+	err = originalFile.Close()
+	if err != nil {
+		return err
+	}
 
 	// Replace original file with new file.
 	if err = os.Rename(newFile.Name(), originalFile.Name()); err != nil {
